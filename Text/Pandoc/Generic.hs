@@ -101,7 +101,10 @@ linked to in a document:
 -}
 module Text.Pandoc.Generic where
 
-import Data.Generics
+-- import Data.Generics
+import Data.Generics.Uniplate.Data
+import Data.Generics.SYB
+import Data.Data
 import Data.Monoid
 
 -- | Applies a transformation on @a@s to matching elements in a @b@,
@@ -112,7 +115,7 @@ bottomUp f = everywhere (mkT f)
 -- | Applies a transformation on @a@s to matching elements in a @b@,
 -- moving from the top of the structure down.
 topDown :: (Data a, Data b) => (a -> a) -> b -> b
-topDown f = everywhere' (mkT f)
+topDown f = everywhere (mkT f)
 
 -- | Like 'bottomUp', but with monadic transformations.
 bottomUpM :: (Monad m, Data a, Data b) => (a -> m a) -> b -> m b

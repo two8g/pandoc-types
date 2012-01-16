@@ -65,6 +65,10 @@ import GHC.Generics (Generic)
 import Data.String
 import Data.Char (toLower)
 import Data.Monoid
+import Data.Generics.Uniplate.Data
+import Data.Ord (comparing)
+import Data.Data
+import Data.Typeable
 
 data Pandoc = Pandoc Meta [Block]
               deriving (Eq, Ord, Read, Show, Typeable, Data, Generic)
