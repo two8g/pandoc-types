@@ -160,6 +160,7 @@ module Text.Pandoc.Builder ( module Text.Pandoc.Definition
                            , horizontalRule
                            , table
                            , simpleTable
+                           , complexTable
                            , divWith
                            )
 where
@@ -485,6 +486,17 @@ simpleTable :: [Blocks]   -- ^ Headers
             -> Blocks
 simpleTable headers = table mempty (mapConst defaults headers) headers
   where defaults = (AlignDefault, 0)
+
+complexTable :: Inlines               -- ^ Caption
+              -> [[Alignment]] -- ^ Column alignments
+              -> [[Double]] -- ^ Column fractional widths
+              -> [[Double]] -- ^ Column fractional heights
+              -> [Blocks]              -- ^ Headers
+              -> [[Blocks]]            -- ^ Rows
+              -> Blocks
+complexTable caption alignments widths heights headers rows = singleton $
+  ComplexTable (toList caption) alignments widths heights
+        (map toList headers) (map (map toList) rows)
 
 divWith :: Attr -> Blocks -> Blocks
 divWith attr = singleton . Div attr . toList

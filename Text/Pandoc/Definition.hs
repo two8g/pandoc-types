@@ -229,6 +229,12 @@ data Block
                             -- relative column widths (0 = default),
                             -- column headers (each a list of blocks), and
                             -- rows (each a list of lists of blocks)
+    | ComplexTable [Inline] [[Alignment]] [[Double]] [[Double]] [TableCell] [[TableCell]]  -- ^ Table,
+                            -- with caption, column alignments (required),
+                            -- relative column widths (0 = default),
+                            -- relative column heigths (0 = default),
+                            -- column headers (each a list of blocks), and
+                            -- rows (each a list of lists of blocks)
     | Div Attr [Block]      -- ^ Generic block container with attributes
     | Null                  -- ^ Nothing
     deriving (Eq, Ord, Read, Show, Typeable, Data, Generic)
