@@ -487,12 +487,12 @@ simpleTable :: [Blocks]   -- ^ Headers
 simpleTable headers = table mempty (mapConst defaults headers) headers
   where defaults = (AlignDefault, 0)
 
-complexTable :: Inlines               -- ^ Caption
-              -> [[Alignment]] -- ^ Column alignments
-              -> [[Double]] -- ^ Column fractional widths
-              -> [[Double]] -- ^ Column fractional heights
-              -> [Blocks]              -- ^ Headers
-              -> [[Blocks]]            -- ^ Rows
+complexTable :: Inlines             -- ^ Caption
+              -> [[Alignment]]      -- ^ Column alignments
+              -> [[Double]]         -- ^ Column fractional widths
+              -> [[Double]]         -- ^ Column fractional heights
+              -> [Blocks]           -- ^ Headers
+              -> [[Blocks]]         -- ^ Rows
               -> Blocks
 complexTable caption alignments widths heights headers rows = singleton $
   ComplexTable (toList caption) alignments widths heights
