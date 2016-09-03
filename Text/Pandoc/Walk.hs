@@ -195,6 +195,7 @@ instance Walkable Inline Block where
   walk f (Header lev attr xs)     = Header lev attr $ walk f xs
   walk f HorizontalRule           = HorizontalRule
   walk f (Table capt as ws hs rs) = Table (walk f capt) as ws (walk f hs) (walk f rs)
+  walk f (ComplexTable capt as ws hgs hs rs) = ComplexTable (walk f capt) as ws hgs (walk f hs) (walk f rs)
   walk f (Div attr bs)            = Div attr (walk f bs)
   walk f Null                     = Null
 
@@ -213,6 +214,11 @@ instance Walkable Inline Block where
                                      hs' <- walkM f hs
                                      rs' <- walkM f rs
                                      return $ Table capt' as ws hs' rs'
+  walkM f (ComplexTable capt as ws hgs hs rs) = do
+                                     capt' <- walkM f capt
+                                     hs' <- walkM f hs
+                                     rs' <- walkM f rs
+                                     return $ ComplexTable capt' as ws hgs hs' rs'
   walkM f (Div attr bs)            = Div attr <$> (walkM f bs)
   walkM f Null                     = return Null
 
@@ -227,6 +233,7 @@ instance Walkable Inline Block where
   query f (Header lev attr xs)     = query f xs
   query f HorizontalRule           = mempty
   query f (Table capt as ws hs rs) = query f capt <> query f hs <> query f rs
+  query f (ComplexTable capt as ws hgs hs rs) = query f capt <> query f hs <> query f rs
   query f (Div attr bs)            = query f bs
   query f Null                     = mempty
 
@@ -242,6 +249,8 @@ instance Walkable Block Block where
   walk f (Header lev attr xs)     = f $ Header lev attr $ walk f xs
   walk f HorizontalRule           = f $ HorizontalRule
   walk f (Table capt as ws hs rs) = f $ Table (walk f capt) as ws (walk f hs)
+                                                     (walk f rs)
+  walk f (ComplexTable capt as ws hgs hs rs) = f $ ComplexTable (walk f capt) as ws hgs (walk f hs)
                                                      (walk f rs)
   walk f (Div attr bs)            = f $ Div attr (walk f bs)
   walk f Null                     = Null
@@ -260,6 +269,10 @@ instance Walkable Block Block where
                                         hs' <- walkM f hs
                                         rs' <- walkM f rs
                                         f $ Table capt' as ws hs' rs'
+  walkM f (ComplexTable capt as ws hgs hs rs) = do capt' <- walkM f capt
+                                                   hs' <- walkM f hs
+                                                   rs' <- walkM f rs
+                                                   f $ ComplexTable capt' as ws hgs hs' rs'
   walkM f (Div attr bs)            = Div attr <$> walkM f bs >>= f
   walkM f Null                     = f Null
 
@@ -274,6 +287,8 @@ instance Walkable Block Block where
   query f (Header lev attr xs)     = f (Header lev attr xs) <> query f xs
   query f HorizontalRule           = f $ HorizontalRule
   query f (Table capt as ws hs rs) = f (Table capt as ws hs rs) <>
+                                       query f capt <> query f hs <> query f rs
+  query f (ComplexTable capt as ws hgs hs rs) = f (ComplexTable capt as ws hgs hs rs) <>
                                        query f capt <> query f hs <> query f rs
   query f (Div attr bs)            = f (Div attr bs) <> query f bs
   query f Null                     = f Null
