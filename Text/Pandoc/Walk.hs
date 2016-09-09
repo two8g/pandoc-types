@@ -124,6 +124,7 @@ instance Walkable Inline Inline where
   walk f (Str xs)         = f $ Str xs
   walk f (Emph xs)        = f $ Emph (walk f xs)
   walk f (Strong xs)      = f $ Strong (walk f xs)
+  walk f (Uline xs)       = f $ Uline (walk f xs)
   walk f (Strikeout xs)   = f $ Strikeout (walk f xs)
   walk f (Subscript xs)   = f $ Subscript (walk f xs)
   walk f (Superscript xs) = f $ Superscript (walk f xs)
@@ -144,6 +145,7 @@ instance Walkable Inline Inline where
   walkM f (Str xs)        = f $ Str xs
   walkM f (Emph xs)       = Emph <$> walkM f xs >>= f
   walkM f (Strong xs)     = Strong <$> walkM f xs >>= f
+  walkM f (Uline xs)     = Uline <$> walkM f xs >>= f
   walkM f (Strikeout xs)  = Strikeout <$> walkM f xs >>= f
   walkM f (Subscript xs)  = Subscript <$> walkM f xs >>= f
   walkM f (Superscript xs)= Superscript <$> walkM f xs >>= f
@@ -166,6 +168,7 @@ instance Walkable Inline Inline where
   query f (Str xs)        = f (Str xs)
   query f (Emph xs)       = f (Emph xs) <> query f xs
   query f (Strong xs)     = f (Strong xs) <> query f xs
+  query f (Uline xs)     = f (Uline xs) <> query f xs
   query f (Strikeout xs)  = f (Strikeout xs) <> query f xs
   query f (Subscript xs)  = f (Subscript xs) <> query f xs
   query f (Superscript xs)= f (Superscript xs) <> query f xs
@@ -297,6 +300,7 @@ instance Walkable Block Inline where
   walk f (Str xs)        = Str xs
   walk f (Emph xs)       = Emph (walk f xs)
   walk f (Strong xs)     = Strong (walk f xs)
+  walk f (Uline xs)     = Uline (walk f xs)
   walk f (Strikeout xs)  = Strikeout (walk f xs)
   walk f (Subscript xs)  = Subscript (walk f xs)
   walk f (Superscript xs)= Superscript (walk f xs)
@@ -317,6 +321,7 @@ instance Walkable Block Inline where
   walkM f (Str xs)        = return $ Str xs
   walkM f (Emph xs)       = Emph <$> walkM f xs
   walkM f (Strong xs)     = Strong <$> walkM f xs
+  walkM f (Uline xs)     = Uline <$> walkM f xs
   walkM f (Strikeout xs)  = Strikeout <$> walkM f xs
   walkM f (Subscript xs)  = Subscript <$> walkM f xs
   walkM f (Superscript xs)= Superscript <$> walkM f xs
@@ -339,6 +344,7 @@ instance Walkable Block Inline where
   query f (Str xs)        = mempty
   query f (Emph xs)       = query f xs
   query f (Strong xs)     = query f xs
+  query f (Uline xs)     = query f xs
   query f (Strikeout xs)  = query f xs
   query f (Subscript xs)  = query f xs
   query f (Superscript xs)= query f xs
