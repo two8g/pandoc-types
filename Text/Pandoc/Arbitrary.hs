@@ -44,6 +44,7 @@ arbInline n = frequency $ [ (60, liftM Str realString)
                           ] ++ [ x | x <- nesters, n > 1]
    where nesters = [ (10,  liftM Emph $ arbInlines (n-1))
                    , (10,  liftM Strong $ arbInlines (n-1))
+                   , (10,  liftM Uline $ arbInlines (n-1))
                    , (10,  liftM Strikeout $ arbInlines (n-1))
                    , (10,  liftM Superscript $ arbInlines (n-1))
                    , (10,  liftM Subscript $ arbInlines (n-1))

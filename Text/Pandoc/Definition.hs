@@ -249,6 +249,7 @@ data Inline
     = Str String            -- ^ Text (string)
     | Emph [Inline]         -- ^ Emphasized text (list of inlines)
     | Strong [Inline]       -- ^ Strongly emphasized text (list of inlines)
+    | Uline [Inline]       -- ^ Underlined emphasized text (list of inlines)
     | Strikeout [Inline]    -- ^ Strikeout text (list of inlines)
     | Superscript [Inline]  -- ^ Superscripted text (list of inlines)
     | Subscript [Inline]    -- ^ Subscripted text (list of inlines)
@@ -457,6 +458,7 @@ instance FromJSON Inline where
       "Str"         -> Str <$> v .: "c"
       "Emph"        -> Emph <$> v .: "c"
       "Strong"      -> Strong <$> v .: "c"
+      "Uline"       -> Uline <$> v .: "c"
       "Strikeout"   -> Strikeout <$> v .: "c"
       "Superscript" -> Superscript <$> v .: "c"
       "Subscript"   -> Subscript <$> v .: "c"
@@ -488,6 +490,7 @@ instance ToJSON Inline where
   toJSON (Str s) = tagged "Str" s
   toJSON (Emph ils) = tagged "Emph" ils
   toJSON (Strong ils) = tagged "Strong" ils
+  toJSON (Uline ils) = tagged "Uline" ils
   toJSON (Strikeout ils) = tagged "Strikeout" ils
   toJSON (Superscript ils) = tagged "Superscript" ils
   toJSON (Subscript ils) = tagged "Subscript" ils

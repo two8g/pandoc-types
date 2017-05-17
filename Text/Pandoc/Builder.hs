@@ -122,6 +122,7 @@ module Text.Pandoc.Builder ( module Text.Pandoc.Definition
                            , str
                            , emph
                            , strong
+                           , uline
                            , strikeout
                            , superscript
                            , subscript
@@ -225,6 +226,7 @@ instance Monoid Inlines where
                           (Str t1, Str t2)   -> xs' |> Str (t1 <> t2)
                           (Emph i1, Emph i2) -> xs' |> Emph (i1 <> i2)
                           (Strong i1, Strong i2) -> xs' |> Strong (i1 <> i2)
+                          (Uline i1, Uline i2) -> xs' |> Uline (i1 <> i2)
                           (Subscript i1, Subscript i2) -> xs' |> Subscript (i1 <> i2)
                           (Superscript i1, Superscript i2) -> xs' |> Superscript (i1 <> i2)
                           (Strikeout i1, Strikeout i2) -> xs' |> Strikeout (i1 <> i2)
@@ -334,6 +336,9 @@ emph = singleton . Emph . toList
 
 strong :: Inlines -> Inlines
 strong = singleton . Strong . toList
+
+uline :: Inlines -> Inlines
+uline = singleton . Uline . toList
 
 strikeout :: Inlines -> Inlines
 strikeout = singleton . Strikeout . toList
